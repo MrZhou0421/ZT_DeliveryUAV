@@ -14,10 +14,50 @@
 
 ## 项目概述
 
-本仓库包含论文实验结果所用的**核心规划器源代码**与**真实飞行数据集**。系统实现了一套跨层能量感知调度框架，主要包含以下两个层次：
+本仓库包含论文实验所用的**核心规划器源代码**与**真实飞行数据集**。
 
-- **微观层（论文第 3.1 & 3.2 节）**：时空解耦轨迹优化器，集成 B 样条转弯能量惩罚项与动态规划（DP）时间重分配模块。
-- **宏观层（论文第 3.3 & 3.4 节）**：离线能耗代价张量预编译流水线，以及基于 Google OR-Tools（SCIP 求解器）的边缘侧能量感知 VRP 调度引擎。
+### 上游基础声明
+
+> ⚠️ **重要说明**：`planner/` 目录中的规划器代码基于 [EGO-Planner](https://github.com/ZJU-FAST-Lab/ego-planner-swarm)（浙江大学 FAST-Lab 开源，MIT License）进行二次开发。所有上游代码的知识产权归原作者所有。
+
+如果您使用本仓库中的规划器代码，请同时引用上游论文：
+
+```bibtex
+@inproceedings{zhou2021ego,
+  title   = {Ego-Planner: An ESDF-Free Gradient-Based Local Planner for Quadrotors},
+  author  = {Zhou, Xin and Wang, Zhepei and Ye, Hongkai and Xu, Chao and Gao, Fei},
+  booktitle = {IEEE RA-L},
+  year    = {2021}
+}
+```
+
+---
+
+### 本文创新点（在 EGO-Planner 基础上的核心改进）
+
+本文的贡献集中在以下两个新增模块，均不属于 EGO-Planner 原有代码：
+
+#### 1. `planner/bspline_opt/` — 转弯能量惩罚项（论文第 3.1 节）
+
+在 B 样条优化的目标函数中，新增了一项基于叶素动量理论的**气动转弯能量惩罚项**：
+
+$$J_{turn} = w_e \int \kappa^2(s)\, v_{ref}^3\, ds$$
+
+该项透过主动削平曲率峰就，将原始路径中的锐角急转挂尔为大弧线平滑过渡，为后续的 DP 模块提供高速延续走廨。
+
+**关键修改文件**：`bspline_opt/src/bspline_optimizer.cpp`（搜索 `kappa` 关键字）
+
+#### 2. `planner/plan_manage/src/dp_time_allocator.cpp` — 能量最优 DP 时间分配器（论文第 3.2 节）
+
+这是本文的核心全新模块，EGO-Planner 原安不包含该文件。它实现了：
+
+- 基于 Alyassi 局部线性功率代理模型进行实时能耗结算
+- 提取 3D Frenet 曲率与动力学边界，构建动态安全速度包络 $v_{max}(s)$
+- 在包络内构建高度稀疏的 DP 状态网格，搜索全局最小能耗最优速度分布 $v^*(s)$
+- 对每个 DP 过渡进行纵向加速度、横向加速度、合推力、倒转角四重物理可行性联合校验
+- 纯 C++ 实现，核心 DP 求解时延 **~1ms**
+
+**关键修改文件**：`plan_manage/src/dp_time_allocator.cpp`（全新文件）
 
 ---
 
