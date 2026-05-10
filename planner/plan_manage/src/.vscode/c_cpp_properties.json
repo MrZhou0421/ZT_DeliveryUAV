@@ -1,0 +1,42 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/ubuntu/Fast-Drone-250/devel/include/**",
+        "/opt/ros/noetic/include/**",
+        "/home/ubuntu/ws_livox/devel/include/**",
+        "/home/ubuntu/Fast-Drone-250/src/planner/bspline_opt/include/**",
+        "/home/ubuntu/Fast-Drone-250/src/realflight_modules/VINS-Fusion/camera_models/include/**",
+        "/home/ubuntu/ws_livox/src/LIO-Drone-250/src/controller/controller_msgs/include/**",
+        "/home/ubuntu/Fast-Drone-250/src/utils/DecompROS/decomp_ros_utils/include/**",
+        "/home/ubuntu/Fast-Drone-250/src/planner/drone_detect/include/**",
+        "/home/ubuntu/Fast-Drone-250/src/planner/plan_manage/include/**",
+        "/home/ubuntu/ws_livox/src/LIO-Drone-250/src/odometry/FAST_LIO/include/**",
+        "/home/ubuntu/ws_livox/src/faster-lio/include/**",
+        "/home/ubuntu/ws_livox/src/LIO-Drone-250/src/controller/geometric_controller/include/**",
+        "/home/ubuntu/Fast-Drone-250/src/uav_simulator/mockamap/include/**",
+        "/home/ubuntu/Fast-Drone-250/src/planner/path_searching/include/**",
+        "/home/ubuntu/Fast-Drone-250/src/planner/plan_env/include/**",
+        "/home/ubuntu/Fast-Drone-250/src/utils/pose_utils/include/**",
+        "/home/ubuntu/Fast-Drone-250/src/utils/quadrotor_msgs/include/**",
+        "/home/ubuntu/Fast-Drone-250/src/realflight_modules/realsense-ros/realsense2_camera/include/**",
+        "/home/ubuntu/Fast-Drone-250/src/uav_simulator/so3_control/include/**",
+        "/home/ubuntu/Fast-Drone-250/src/uav_simulator/so3_quadrotor_simulator/include/**",
+        "/home/ubuntu/ws_livox/src/TFmini-ROS/tfmini_ros/include/**",
+        "/home/ubuntu/Fast-Drone-250/src/planner/traj_utils/include/**",
+        "/home/ubuntu/Fast-Drone-250/src/utils/uav_utils/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}

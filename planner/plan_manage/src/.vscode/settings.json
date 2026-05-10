@@ -1,0 +1,17 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/home/ubuntu/Fast-Drone-250/devel/lib/python3/dist-packages",
+        "/home/ubuntu/ws_livox/devel/lib/python3/dist-packages",
+        "/opt/ros/noetic/lib/python3/dist-packages",
+        "/usr/bin/python3"
+    ],
+    "python.analysis.extraPaths": [
+        "/home/ubuntu/Fast-Drone-250/devel/lib/python3/dist-packages",
+        "/home/ubuntu/ws_livox/devel/lib/python3/dist-packages",
+        "/opt/ros/noetic/lib/python3/dist-packages",
+        "/usr/bin/python3"
+    ],
+    "files.associations": {
+        "ostream": "cpp"
+    }
+}
