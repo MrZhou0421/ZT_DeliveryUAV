@@ -7,14 +7,19 @@
 
 本仓库为以下论文的官方开源发布：
 
-> **《面向边缘的无人机协同配送能量资源预估与安全调度架构》**
-> 周潼，浙江工业大学，2026年
+> **《面向边缘的无人机协同配送能量资源预估与安全调度方法》**
+
 
 ---
 
 ## 项目概述
 
 本仓库包含论文实验所用的**核心规划器源代码**与**真实飞行数据集**。
+
+### 演示视频
+
+- **[仿真测试演示](2411_raw.mov)**
+- **[真实飞行测试演示](IMG_2584.MOV)**
 
 ### 上游基础声明
 
@@ -161,7 +166,6 @@ python scripts/calibrate_model.py
 ```bibtex
 @article{zhou2026energyaware,
   title   = {面向边缘的无人机协同配送能量资源预估与安全调度架构},
-  author  = {周潼},
   journal = {小型微型计算机系统（审稿中）},
   year    = {2026},
   url     = {https://github.com/MrZhou0421/ZT_DeliveryUAV}
@@ -174,10 +178,3 @@ python scripts/calibrate_model.py
 
 - **代码**：MIT License（详见 [LICENSE](LICENSE) 文件）
 - **飞行数据**（`.ulg` 文件）：[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)（署名-4.0 国际）
-
----
-
-## 联系方式
-
-**周潼** — 浙江工业大学 计算机科学与技术学院
-📧 zhoutong_0421@163.com
