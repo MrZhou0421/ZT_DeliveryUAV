@@ -18,11 +18,8 @@
 
 ### 演示视频
 
-**仿真测试演示**
-<video src="https://github.com/MrZhou0421/ZT_DeliveryUAV/raw/main/2411_raw.mov" controls="controls" width="100%" height="auto"></video>
-
-**真实飞行测试演示**
-<video src="https://github.com/MrZhou0421/ZT_DeliveryUAV/raw/main/IMG_2584.MOV" controls="controls" width="100%" height="auto"></video>
+- **[仿真测试演示](2411_raw.mov)**
+- **[真实飞行测试演示](IMG_2584.MOV)**
 
 ### 上游基础声明
 
