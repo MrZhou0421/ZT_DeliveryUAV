@@ -1,0 +1,4 @@
+config,path_sample_dist_m,vel_levels,waypoints,path_length_m,iterations,mean_ms,std_ms,min_ms,max_ms
+release_default,0.200000,40,218,43.585191,200,1.089685,0.051176,1.018000,1.387000
+dense_ds,0.100000,40,440,43.585191,200,1.735410,0.043174,1.667000,1.959000
+dense_ds_high_k,0.100000,60,440,43.585191,200,4.178865,0.333644,3.893000,6.710000

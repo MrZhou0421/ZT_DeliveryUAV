@@ -40,9 +40,12 @@ namespace ego_planner
     bspline_optimizer_->a_star_->initGridMap(grid_map_, Eigen::Vector3i(100, 100, 100));
 
     double payload_mass;
+    int dp_vel_levels;
     nh.param("manager/payload_mass", payload_mass, 0.255);
+    nh.param("manager/dp_path_sample_dist", dp_path_sample_dist_, 0.2);
+    nh.param("manager/dp_vel_levels", dp_vel_levels, 40);
     dp_time_allocator_.reset(new DPTimeAllocator());
-    dp_time_allocator_->setParam(pp_.max_vel_, pp_.max_acc_, payload_mass);
+    dp_time_allocator_->setParam(pp_.max_vel_, pp_.max_acc_, payload_mass, dp_vel_levels);
 
     visualization_ = vis;
   }
@@ -594,7 +597,7 @@ namespace ego_planner
     // 1. Extract physical path
     double total_duration = traj.getTimeSum();
     vector<Eigen::Vector3d> waypoints;
-    double ds = 0.5;
+    double ds = std::max(0.05, dp_path_sample_dist_);
     
     Eigen::Vector3d last_pt = traj.evaluateDeBoorT(0.0);
     waypoints.push_back(last_pt);

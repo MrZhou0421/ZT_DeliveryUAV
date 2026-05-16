@@ -6,16 +6,17 @@ using namespace std;
 namespace ego_planner
 {
 
-  DPTimeAllocator::DPTimeAllocator(double v_max, double a_max, double payload_mass)
-      : v_max_(v_max), a_max_(a_max), payload_mass_(payload_mass)
+  DPTimeAllocator::DPTimeAllocator(double v_max, double a_max, double payload_mass, int vel_levels)
+      : v_max_(v_max), a_max_(a_max), payload_mass_(payload_mass), vel_levels_(vel_levels)
   {
   }
 
-  void DPTimeAllocator::setParam(double v_max, double a_max, double payload_mass)
+  void DPTimeAllocator::setParam(double v_max, double a_max, double payload_mass, int vel_levels)
   {
     v_max_ = v_max;
     a_max_ = a_max;
     payload_mass_ = payload_mass;
+    vel_levels_ = std::max(2, vel_levels);
   }
 
   double DPTimeAllocator::alyassi_power(double speed, double ax, double ay, double az, double payload_mass, double vz)
@@ -71,7 +72,7 @@ namespace ego_planner
     if (M == 0)
       return false;
 
-    int v_num = 30; // default value per python script
+    int v_num = std::max(2, vel_levels_);
     double v_min_grid = 0.1;
 
     vector<double> v_grid(v_num);

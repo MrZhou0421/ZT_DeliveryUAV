@@ -131,6 +131,9 @@
     <param name="manager/planning_horizon" value="$(arg planning_horizon)" type="double"/>
     <param name="manager/use_distinctive_trajs" value="$(arg use_distinctive_trajs)" type="bool"/>
     <param name="manager/drone_id" value="$(arg drone_id)"/>
+    <param name="manager/payload_mass" value="0.255" type="double"/>
+    <param name="manager/dp_path_sample_dist" value="0.2" type="double"/>
+    <param name="manager/dp_vel_levels" value="40" type="int"/>
 
   <!-- trajectory optimization -->
     <param name="optimization/lambda_smooth" value="1.0" type="double"/>

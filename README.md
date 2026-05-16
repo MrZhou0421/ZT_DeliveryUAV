@@ -50,21 +50,41 @@
 
 $$J_{turn} = w_e \int \kappa^2(s)\, v_{ref}^3\, ds$$
 
-该项透过主动削平曲率峰就，将原始路径中的锐角急转挂尔为大弧线平滑过渡，为后续的 DP 模块提供高速延续走廨。
+该项通过主动削平曲率峰值，将原始路径中的锐角急转转化为更平滑的弧线过渡，为后续 DP 时间分配模块提供更宽松的速度可行域。
 
 **关键修改文件**：`bspline_opt/src/bspline_optimizer.cpp`（搜索 `kappa` 关键字）
 
 #### 2. `planner/plan_manage/src/dp_time_allocator.cpp` — 能量最优 DP 时间分配器（论文第 3.2 节）
 
-这是本文的核心全新模块，EGO-Planner 原安不包含该文件。它实现了：
+这是本文的核心全新模块，EGO-Planner 原始代码不包含该文件。它实现了：
 
 - 基于 Alyassi 局部线性功率代理模型进行实时能耗结算
 - 提取 3D Frenet 曲率与动力学边界，构建动态安全速度包络 $v_{max}(s)$
-- 在包络内构建高度稀疏的 DP 状态网格，搜索全局最小能耗最优速度分布 $v^*(s)$
+- 在包络内构建 DP 状态网格，搜索全局最小能耗最优速度分布 $v^*(s)$
 - 对每个 DP 过渡进行纵向加速度、横向加速度、合推力、倒转角四重物理可行性联合校验
-- 纯 C++ 实现，核心 DP 求解时延 **~1ms**
+- 纯 C++ 实现，在本机 Intel i7-12700H 上，`K=40`、`ds=0.2 m` 时核心 DP 求解平均时延约 **1.09 ms**
 
 **关键修改文件**：`plan_manage/src/dp_time_allocator.cpp`（全新文件）
+
+### DP 时间分配参数与时延
+
+当前开源实现默认采用与论文实验一致的 DP 离散参数：
+
+| 参数 | 默认值 | 位置 |
+|---|---:|---|
+| 路径弧长采样间隔 `ds` | 0.2 m | `manager/dp_path_sample_dist` |
+| 速度离散层数 `K` | 40 | `manager/dp_vel_levels` |
+| 载荷质量 | 0.255 kg | `manager/payload_mass` |
+
+在 Intel i7-12700H 上，对一条约 43.59 m 的代表性三维路径重复 200 次测试，核心 DP 求解耗时如下：
+
+| 配置 | `ds` | `K` | 采样点数 | 平均耗时 |
+|---|---:|---:|---:|---:|
+| 默认配置 | 0.20 m | 40 | 218 | 1.09 ms |
+| 加密路径采样 | 0.10 m | 40 | 440 | 1.74 ms |
+| 加密采样 + 更高速度层数 | 0.10 m | 60 | 440 | 4.18 ms |
+
+原始结果文件见 `benchmark_results/dp_time_allocator_latency_20260516_230734.csv`。
 
 ---
 
@@ -96,7 +116,7 @@ open_source_release_20260510/
 │       └── only_turn/      ← 仅转弯惩罚（无 DP 时间分配）日志
 ```
 
-> **说明**：规划器 ROS/Catkin 源代码将在论文正式接收后于独立分支发布。`MANIFEST.tsv` 包含所有数据文件的 SHA-256 校验码以保证实验可复现性。
+> **说明**：本仓库已包含论文所用的核心规划器源码与真实飞行数据。`MANIFEST.tsv` 包含所有数据文件的 SHA-256 校验码以保证实验可复现性。
 
 ---
 
@@ -149,15 +169,7 @@ open_source_release_20260510/
 
 ## 复现功率模型标定
 
-论文公式 (1) 中的 10 参数 Alyassi 代理模型，基于涵盖多种负载配置的 **35 次真实飞行、21,909 个时序物理采样点**完成标定。复现步骤（脚本将随论文接收后发布）：
-
-```bash
-pip install pyulog numpy scikit-learn
-# 解析 .ulg 文件并提取特征
-python scripts/extract_features.py --data flydata/Move_go/
-# 执行 Ridge 回归标定
-python scripts/calibrate_model.py
-```
+论文公式 (1) 中的 10 参数 Alyassi 代理模型，基于涵盖多种负载配置的 **35 次真实飞行、21,909 个时序物理采样点**完成标定。
 
 ---
 

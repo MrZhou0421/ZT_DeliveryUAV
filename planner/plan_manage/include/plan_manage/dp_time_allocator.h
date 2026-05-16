@@ -11,7 +11,7 @@ namespace ego_planner
   class DPTimeAllocator
   {
   public:
-    DPTimeAllocator(double v_max = 2.0, double a_max = 1.0, double payload_mass = 0.255);
+    DPTimeAllocator(double v_max = 2.0, double a_max = 1.0, double payload_mass = 0.255, int vel_levels = 40);
     ~DPTimeAllocator() {}
 
     // Main API: taking a spatial path and returning an optimal velocity profile and total time
@@ -20,16 +20,18 @@ namespace ego_planner
                             double& total_time, 
                             std::vector<double>& optimal_velocities);
 
-    void setParam(double v_max, double a_max, double payload_mass);
+    void setParam(double v_max, double a_max, double payload_mass, int vel_levels = 40);
 
     double getVMax() const { return v_max_; }
     double getAMax() const { return a_max_; }
     double getPayloadMass() const { return payload_mass_; }
+    int getVelLevels() const { return vel_levels_; }
 
   private:
     double v_max_;
     double a_max_;
     double payload_mass_;
+    int vel_levels_;
 
     double DRONE_BASE_MASS = 2.614;
 

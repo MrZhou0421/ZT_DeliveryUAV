@@ -63,6 +63,7 @@ namespace ego_planner
 
     BsplineOptimizer::Ptr bspline_optimizer_;
     std::unique_ptr<DPTimeAllocator> dp_time_allocator_;
+    double dp_path_sample_dist_{0.2};
 
     int continous_failures_count_{0};
 

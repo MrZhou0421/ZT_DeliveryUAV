@@ -54,3 +54,10 @@ add_executable(traj_server src/traj_server.cpp)
 target_link_libraries(traj_server ${catkin_LIBRARIES})
 #add_dependencies(traj_server ${${PROJECT_NAME}_EXPORTED_TARGETS})
 
+add_executable(dp_time_allocator_benchmark_node
+  src/dp_time_allocator_benchmark_node.cpp
+  src/dp_time_allocator.cpp
+  )
+target_link_libraries(dp_time_allocator_benchmark_node
+  ${catkin_LIBRARIES}
+  )
